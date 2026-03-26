@@ -1,0 +1,18 @@
+apiversion: app/v1
+kind: deployment
+metadata: 
+    name: blue-deployment
+spec:
+  replicas: 3
+  selector: 
+     matchlable:
+      app: myapp
+      version: blue
+  template:
+     metadata:
+       labels:
+        app: myapp
+        version: blue
+     spec: 
+       containers:
+       - name:        

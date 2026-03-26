@@ -1,0 +1,25 @@
+apiversion: v1            # tells kubernetes which api group and version to use for secource creating
+kind: pod                 # telling kubernetes "what object this yaml defines"
+metadata:                 # key part of every resource object, its contain info that uniquely identifies
+   name: myapp            # unique name for the resource 
+   labels:                # key-value pairs used to categorize, used by selector 
+      app: webapp         # this label says that the object belongs to the application 
+      type: frontend
+spec:                     # define the desire state or behaviour
+  containers:             # 
+  - name: my-app          # this is the name of container
+    image: nginx
+
+
+---
+
+
+apiversion: app/v1
+kind: deployment
+metadata:
+     name: mongodb-dpl
+spec: 
+    replicas: 3
+    labels: my-app
+    
+  

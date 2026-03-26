@@ -1,0 +1,19 @@
+apiversion: v1
+kind: ReplicaSet
+metadata: 
+   name: myserver
+spec: 
+  replicas: 4             # it create 4 pods at run time
+  selector:               # match or select a group of objects based on their labels(To route traffic to the right Pods.)
+    matchlabels: 
+      app: my-server  
+  template:               # pod blueprit
+    metadata:               # pod metadata 
+     name: my-project
+     labels:
+        app: my-server
+        type: frontend
+    spec:
+      containers:
+      - name: nginx
+        image: httpd     
