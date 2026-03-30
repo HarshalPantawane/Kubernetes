@@ -16,12 +16,13 @@ spec:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
           - labelSelector:
-            matchExpressions:
-            - key: app
-              operator: In
-              values:
-              - Anti-Affinity
-          topologyKey: "kubernetes.io/hostname"
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - anti-affinity-app
+            topologyKey: "kubernetes.io/hostname"
+
       containers:
       - name: nginx
         image: nginx   

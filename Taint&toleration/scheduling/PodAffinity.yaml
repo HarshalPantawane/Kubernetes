@@ -22,6 +22,6 @@ spec:
                values:
                - affinity-app
            topologyKey: "kubernetes.io/hostname"
-       containers:
-       - name: nginx
-         image: nginx   
+    containers:
+    - name: nginx
+      image: nginx   
