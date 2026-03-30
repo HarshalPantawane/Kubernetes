@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: anti-affinity
+  name: backend
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: anti-affinity-app
+      app: backend
   template:
     metadata:
       labels:
-        app: anti-affinity-app
+        app: backend
     spec:
       affinity:
         podAntiAffinity:
@@ -20,9 +20,9 @@ spec:
               - key: app
                 operator: In
                 values:
-                - anti-affinity-app
+                - backend
             topologyKey: "kubernetes.io/hostname"
 
       containers:
-      - name: nginx
+      - name: backend
         image: nginx
