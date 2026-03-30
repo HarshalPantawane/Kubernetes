@@ -5,7 +5,7 @@ metadata:
 spec:
   replicas: 2
   selector:
-    matchlabels:
+    matchLabels:
       app: Anti-Affinity
   template:
     metadata:
@@ -14,14 +14,14 @@ spec:
     spec:
       affinity:
         podAntiAffinity:
-          requoredDuringSchedulingignoreDuringExecurtion:
+          requiredDuringSchedulingIgnoredDuringExecution:
           - labelSelector:
             matchExpressions:
             - key: app
               operator: In
               values:
               - Anti-Affinity
-          topologyKey: "kubernetes.io/hostname"              
-        containers:
-        - name: nginx
-          image: nginx   
+          topologyKey: "kubernetes.io/hostname"
+      containers:
+      - name: nginx
+        image: nginx   

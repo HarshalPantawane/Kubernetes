@@ -8,20 +8,20 @@ spec:
     matchLabels:
       app: Affinity
   template:
-   metadata:
-     labels:
-      app: Affinity
-   spec:
+    metadata:
+      labels:
+        app: Affinity
+    spec:
      affinity:
        podAffinity:
-         requiredDuringScheduleingIgnoredDuringExecution:
+         requiredDuringSchedulingIgnoredDuringExecution:
          - labelSelector:
              matchExpressions:
              - key: app
                operator: In
                values:
                - affinity-app
-             topologyKey: "kubernetes.io/hostname"
-         containers:
-         - name: nginx
-           image: nginx   
+           topologyKey: "kubernetes.io/hostname"
+       containers:
+       - name: nginx
+         image: nginx   
