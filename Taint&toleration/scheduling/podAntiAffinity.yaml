@@ -1,14 +1,14 @@
 apiVersion: apps/v1
-lind: Deployment
-metadat:
+kind: Deployment
+metadata:
   name: Anti-Affinity
 spec:
-  replicaseets: 2
+  replicas: 2
   selector:
-    matchlables:
+    matchlabels:
       app: Anti-Affinity
   template:
-    metadat:
+    metadata:
       labels:
         app: Anti-Affinity
     spec:
