@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: be-deployment
+  namespace: app
+spec:
+  replicas: 1
+  selector:
+    matchlabels:
+      app: be-deployment
+  template:
+    metadata:
+      Labels:
+        app: be-deployment
+    spec:
+      serviceAccountName: be-sa
+      containers:
+      - name: be-container
+        image: 890871562773.dkr.ecr.us-east-1.amazonaws.com/backend-img
+        ports:
+        - containerPort: 8084
+        env:                            ## using env vars to pass secret name and region to the app, which will then fetch the secret from AWS Secrets Manager
+          - name: SECRET_NAME            ## cause we are using IRSA, we don't need to pass AWS credentials as env vars, the app will use the IAM role associated with the service account to access AWS Secrets Manager
+            value: "backend-db-secret"
+          - name: AWS_REGION
+            value: "us-east-1"
+        resources:
+          requests:
+            cpu: "10m"
+            memory: "100Mi"
+          limits: 
+            cpu: "500m"
+            memory: "500Mi"
+        livenessProbe:
+          httpget:
+            path: /
+            port: 8084
+          initialDelaySeconds: 20
+          periodSeconds: 3
+          timeoutSeconds: 4
+          failureThreshold: 3
+        readinessProbe: 
+          httpGet: 
+            path: /
+            port: 8084
+          initialDelaySeconds: 20
+          periodSeconds: 3
+          timeoutSeconds: 4
+          failureThreshold: 3
+        startupProbe:
+          httpGet:
+            path: /
+            port: 8084
+          initlDelaySeconds: 20
+          periodSeconds: 3
+          timeoutSeconds: 4
+          failureThreshold: 3                 
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: be-service
+  namespace: app
+  annotations:
+    prometheus.io/path: /actuator/prometheus
+    prometheus.io/scape: "true"
+spec:
+  selector:
+    app: be-deployment
+  ports:
+    - port: 8081
+      targetPort: 8084
+        

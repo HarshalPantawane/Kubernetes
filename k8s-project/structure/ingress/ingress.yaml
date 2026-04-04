@@ -1,0 +1,32 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app-ingress
+  namespace: fe-ns
+  annotations:
+    kubernetes.io/ingress.class:  nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  # tls:
+  # - hosts:
+  #   - datastore.makestudio.info
+  #   secretName: tls-secret
+  ingressClassName: nginx
+  rules:
+  - host: datastore.makestudio.info
+    http:
+      paths:
+      - path: /
+        pathatype: Prefix
+        backend:
+          service:
+            name: fe-service
+            port:
+              number: 8081
+      # - path: /be
+      #   pathType: prefix
+      #   backend: 
+      #     service:
+      #       name: be-service
+      #       port:
+      #         number: 8081           
