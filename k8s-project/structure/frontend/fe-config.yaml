@@ -4,4 +4,4 @@ metadata:
   name: fe-config
   namespace: fe-ns
 data:
-  backendEndpoint: http://be-service.app.svc.cluster.local:8084
+  backendEndpoint: http://be-service.app.svc.cluster.local:8081

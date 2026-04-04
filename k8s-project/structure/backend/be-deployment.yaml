@@ -6,11 +6,11 @@ metadata:
 spec:
   replicas: 1
   selector:
-    matchlabels:
+    matchLabels:
       app: be-deployment
   template:
     metadata:
-      Labels:
+      labels:
         app: be-deployment
     spec:
       serviceAccountName: be-sa
@@ -19,11 +19,22 @@ spec:
         image: 890871562773.dkr.ecr.us-east-1.amazonaws.com/backend-img
         ports:
         - containerPort: 8084
-        env:                            ## using env vars to pass secret name and region to the app, which will then fetch the secret from AWS Secrets Manager
-          - name: SECRET_NAME            ## cause we are using IRSA, we don't need to pass AWS credentials as env vars, the app will use the IAM role associated with the service account to access AWS Secrets Manager
-            value: "backend-db-secret"
-          - name: AWS_REGION
-            value: "us-east-1"
+        env:                          
+        - name: MYSQL_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: datastore-be-cm
+              key: mysqlHost
+        - name: MYSQL_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: datastore-be-cm
+              key: mysqlUname
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: datastore-be-secret
+              key: mysqlPassword
         resources:
           requests:
             cpu: "10m"
@@ -32,7 +43,7 @@ spec:
             cpu: "500m"
             memory: "500Mi"
         livenessProbe:
-          httpget:
+          httpGet:
             path: /
             port: 8084
           initialDelaySeconds: 20
@@ -51,7 +62,7 @@ spec:
           httpGet:
             path: /
             port: 8084
-          initlDelaySeconds: 20
+          initialDelaySeconds: 20
           periodSeconds: 3
           timeoutSeconds: 4
           failureThreshold: 3                 
@@ -65,7 +76,7 @@ metadata:
   namespace: app
   annotations:
     prometheus.io/path: /actuator/prometheus
-    prometheus.io/scape: "true"
+    prometheus.io/scrape: "true"
 spec:
   selector:
     app: be-deployment

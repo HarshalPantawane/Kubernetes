@@ -10,7 +10,7 @@ spec:
       app: fe-deployment
   template:
     metadata:
-      Labels: 
+      labels: 
         app: fe-deployment
     spec:
       serviceAccountName: fe-sa
@@ -20,7 +20,7 @@ spec:
         env:
           - name: API_URL
             valueFrom:
-              configurationKeyRef:
+              configMapKeyRef:
                 name: fe-config
                 key: backendEndpoint
         resources:
@@ -31,10 +31,10 @@ spec:
             cpu: "100m"
             memory: "200mi"
         livenessProbe: 
-          httpget:
+          httpGet:
             path: /
             port: 8080
-          initialDelaySecomds: 3
+          initialDelaySeconds: 3
           periodSeconds: 3
           timeoutSeconds: 4
           failureThreshold: 3
@@ -50,7 +50,7 @@ spec:
           httpGet: 
             path: /
             port: 8080
-          initinalDelaySeconds: 3
+          initialDelaySeconds: 3
           periodSeconds: 3
           timeoutSeconds: 4
           failureThreshold: 3
@@ -66,6 +66,6 @@ metadata:
 spec:
   selector:
     app: fe-deployment
-    ports: 
-    - port: 8081
-      targetPort: 8080
+  ports: 
+  - port: 8081
+    targetPort: 8080

@@ -17,7 +17,7 @@ spec:
     http:
       paths:
       - path: /
-        pathatype: Prefix
+        pathType: Prefix
         backend:
           service:
             name: fe-service
