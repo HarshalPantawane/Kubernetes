@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: datastore-backend
-          image: 634107240549.dkr.ecr.us-east-1.amazonaws.com/datastore:v47.0
+          image: 890871562773.dkr.ecr.us-east-1.amazonaws.com/backend-img
           env:
             - name: MYSQL_HOST
               valueFrom:
@@ -25,7 +25,7 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: datastore-be-cm
-                  key: mysqlUname
+                  key: mysqlUsername
             - name: MYSQL_PASSWORD
               valueFrom:
                 secretKeyRef:
