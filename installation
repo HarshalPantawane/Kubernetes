@@ -12,3 +12,28 @@ aws configure
 
 aws eks --region ap-south-1 update-kubeconfig --name my-cluster
 
+
+#### 
+cluster version update
+aws eks update-cluster-version \
+  --name harshal \
+  --region us-east-1 \
+  --kubernetes-version <your-next-version>
+
+
+##
+update  monitoring
+aws eks describe-update \
+  --name harshal \
+  --region us-east-1 \
+  --update-id <update-id>
+
+
+####
+nodegroup version update
+aws eks update-nodegroup-version \
+  --cluster-name harshal \
+  --region us-east-1 \
+  --nodegroup-name <node-group-name>
+
+
