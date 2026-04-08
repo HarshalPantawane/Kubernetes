@@ -12,6 +12,7 @@ spec:
       labels:
         type: frontend
     spec:
+      serviceAccountName: fe-sa
       containers:
         - name: mywebapp
           image: 890871562773.dkr.ecr.us-east-1.amazonaws.com/frontend-img

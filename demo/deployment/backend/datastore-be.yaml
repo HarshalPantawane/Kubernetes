@@ -12,6 +12,7 @@ spec:
       labels:
         type: backend
     spec:
+      serviceAccountName: be-sa
       containers:
         - name: datastore-backend
           image: 890871562773.dkr.ecr.us-east-1.amazonaws.com/backend-img

@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: fe-sa
+  namespace: frontend
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::890871562773:role/frontend-img-role

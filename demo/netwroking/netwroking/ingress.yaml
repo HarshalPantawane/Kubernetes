@@ -8,7 +8,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: datastore.makestudio.info
+    - host: www.harshalpantawane.shop
       http:
         paths:
           - path: /

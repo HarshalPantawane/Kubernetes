@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata: 
+  name: be-sa
+  namespace: backend
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::890871562773:role/backend-img-role
