@@ -12,7 +12,7 @@ spec:
       labels:
         type: backend
     spec:
-      serviceAccountName: be-sa
+      serviceAccountName: ba-sa
       containers:
         - name: datastore-backend
           image: 890871562773.dkr.ecr.us-east-1.amazonaws.com/backend-img
@@ -26,7 +26,7 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: datastore-be-cm
-                  key: mysqlUsername
+                  key: mysqlUname
             - name: MYSQL_PASSWORD
               valueFrom:
                 secretKeyRef:

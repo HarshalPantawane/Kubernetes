@@ -1,0 +1,66 @@
+kubermates is an open-source orchastration tool developed by goolge 
+
+Defination : 
+k8s is an open-source system for automating, deployment, scalling, and management of containerized application
+
+what k8s actuallly does:
+at a high level, k8s helps you to run apps packaged in container across a cluster of machine 
+
+core comcepts:
+1. cluster --> A group of machines(nodes)
+2. Nodes   --> A single machine
+3. Pods    --> The smallest unit of cluster, run one or more containers
+
+Deployment --> Defines how your app should run (replicas, updates)
+Service    --> Exposes your app to the network
+ingress    --> Handles external HTTP/HTTPs access
+configMap/Secret --> Store configuration & sensetive data
+
+k8s can configure on any env 
+1. On-prem(premises)
+2. Cloud Environment 
+
+##############################
+
+Architecture Explaination
+
+k8s cluater consists of a control plane and  set of worker machines called nodes,
+
+The worker nodes host the pods that are the component of the application workload. the control plane manage the worker nodes and pods in cluster 
+
+# control plane components
+the control plane's components make global decision about the cluster, as well as detecting and responding to cluster event.(this is the brain of kubernetes cluster)
+
+# kube-api-server
+the API server is a component of the kubernetes control plane that expose kubernetes API. the API server is a frontend for the kubernetes control plane. 
+
+validate request and communicate with all component 
+
+# etcd 
+Consistent and highly-avaiable key value store used as kubernetes backing store for all cluster data.
+
+# kube-scheduler
+control plane component that watch for newly created pods with no assigned node and seect for them to run on.
+( just make decision)
+
+# kube-controller-manager
+logically, each controller is a seperate process, but to reduce complexity, they all are compiled into single binary and run in a single process.
+
+there are many types of controllers. some example like 
+> node controller: responsible for noticing and respondig when node go down.
+> job controller:  watches for job object that represent one-off tasks, then creates pod to run those task to completion.
+> serviceAccount controller: create default serviceAccount for new namespace.
+
+# Node component
+Node component runs on every node, maintaining running pods and providing the kubernetes runtime env.
+
+# Kubelet
+An agent that run on each node in a cluster, it mske sure that container are running in pods.
+
+the kubelet takes a set of podSpecs that are provided through various machanisms and ensure that the container described in those podspec are running and healthy. the kubelet doesn't manage container which were not created by k8s.
+
+# kube-proxy
+kube-proxy is a network proxy that run on every node in cluster. implementing part of the k8s service concept.
+
+# container run-time 
+A fundamental component that empowers k8s to run container effectively. it is responcible for  managing the execution and lifecycle of container within the k8s env.

@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1              # Defines this as an Argo CD resource 
+kind: Application                             # the main object Argo CD manages
+metadata: 
+  name: argo-cd 
+  namespace: argocd                           # where Argo CD is installed (usually argocd)
+spec:
+  project: default                            # Logical grouping inside Argo CD, Helps with access control and organization
+  source:
+    repoURL: https://github.com/HarshalPantawane/Kubernetes.git                                 # Where your code/config is stored (Git repo)
+    targetRevision: HEAD                      # Which branch (HEAD, main, etc.)
+    path: /argo-cd                                   # Which folder contain kubernetes YAML
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: custom
+  syncPolicy:
+    automated:                                # deploy changes automatically
+      prune: true                             # delete resources removed from Git
+      selfHeal: true                          # fix manual changes in cluster

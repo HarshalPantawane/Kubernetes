@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata: 
-  name: fe-config
-  namespace: fe-ns
-data:
-  backendEndpoint: http://be-service.app.svc.cluster.local:8081

@@ -1,0 +1,17 @@
+### create cluster
+eksctl create cluster --name cluster-name --region us-east-1 --nodegroup-name workers --nodes 2 --zones us-east-1a,us-east-1b
+
+### delete cluster 
+eksctl delete cluster --name cluster-name --region us-east-1
+
+###
+kubectl get nodes
+
+### 
+kubectl get po -n namespace-name
+
+###
+kubectl get po -o wide       //Output in wide formate 
+
+### 
+kubectl scale deployment nginx-demo --repicas=2
