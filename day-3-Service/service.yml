@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: service
+metadata:
+  name: myapp-service
+  namespace: default
+  Labels:
+    app: myapp-service
+spec:
+  selector:
+    app: myapp
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80  
+
+# kubectl apply -f service.yml
+# kubectl get svc    
+
+--- 
+# for multi port
+apiVersion: v1 
+kind: Service
+metadata:
+  name: myapp-service
+  namespace: default
+spec:
+  selector:
+    app: myapp
+  ports:
+  - name: http           # port 1 
+    port:  80
+    targetPort: 8080
+
+  - name: https          # port 2
+    port: 443
+    targetPort: 6443
+
+# kubectl apply -f Service.yml
+# kubectl get svc
+---

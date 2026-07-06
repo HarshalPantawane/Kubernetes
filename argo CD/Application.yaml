@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default                            # Logical grouping inside Argo CD, Helps with access control and organization
   source:
-    repoURL: https://github.com/HarshalPantawane/Kubernetes.git                                 # Where your code/config is stored (Git repo)
+    repoURL: https://github.com/HarshalPantawane/Kubernetes.git  # Where your code/config is stored (Git repo)
     targetRevision: HEAD                      # Which branch (HEAD, main, etc.)
     path: /argo-cd                                   # Which folder contain kubernetes YAML
   destination:

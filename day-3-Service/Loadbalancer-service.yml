@@ -1,0 +1,16 @@
+apiversion: v1
+kind: Service
+metadata:
+  name: busybox-service
+  namespace: default
+spec:
+  selctor:
+    app: myapp
+  ports: 
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: LoadBalancer
+
+# kubectl apply -f LoadBalancer.yml   
+# kubectl get svc

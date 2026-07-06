@@ -1,0 +1,11 @@
+apiVersion: v1 
+kind: Service
+metadata:
+  name: mysql-db
+
+spec:
+  type: external
+  externalName: mysql.example.com
+
+# kubectl apply -f External-service.yml
+# kubectl get svc

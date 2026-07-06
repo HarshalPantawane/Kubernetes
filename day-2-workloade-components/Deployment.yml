@@ -1,0 +1,107 @@
+apiVersion: apps/v1          # APIVersion defines the versioned schema of this representation of an object.
+kind: Deployment             # Kind is a string value representing the REST resource this object represents.
+metadata:                    # Standard object's metadata.
+  name: myapp
+  namespace: default
+  Labels: 
+    app: myapp
+spec:                        # Specification of the desired behavior of the Deployment.
+  replicas: 5                # Number of desired pods. 
+  selector:                  # Label selector for pods. Existing ReplicaSets whose pods are selected by this will be the ones affected by this deployment. It must match the pod template's labels.
+    matchLabels:
+      app: myapp
+  template:                  # Template describes the pods that will be created.
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+      - name: myapp
+        image: busybox
+        ports:
+        - containerPort: 80
+
+---
+
+apiVersion: apps/v14
+kind: Deployment
+metadata:
+  name: myapp1
+  namespace: default
+  Labels:
+    app: myapp1
+
+spec:
+  replicas: 5
+
+  selector:
+    matchLabels:
+      app: myapp1
+
+  template:
+    metadata:
+      labels:
+        app: myapp1
+    spec:
+      containers:
+      - name: myapp1
+        image: busybox
+        ports:
+        - containerPort: 80  
+
+# kubectl apply -f Deployment.yml
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp2
+  namespace: default
+  labels:
+    app: myapp2
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: myapp2
+  template:
+    metadata:
+      labels:
+        app: myapp2
+    spec:
+      containers:
+      - name: myapp2
+        image: busybox
+        ports:
+        - containerPort: 80
+
+# kubectl apply -f Deployment.yml
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp3
+  namespace: default
+  Labels:
+    app: myapp3
+spec:
+  replicas: 5
+  selector:
+    matchLlabels:
+      app: myapp3
+  template:
+    metadata:
+      Labels:
+        app: myapp3
+    spec:
+      containers:
+      - name: myapp3
+        image: busybox
+        ports:
+        - containerPort: 80
+
+# kubectl apply -f Deployment.yml        
+
+---

@@ -28,7 +28,8 @@ k8s cluater consists of a control plane and  set of worker machines called nodes
 
 The worker nodes host the pods that are the component of the application workload. the control plane manage the worker nodes and pods in cluster 
 
-# control plane components
+## Component of Cluster
+# 1 control plane components
 the control plane's components make global decision about the cluster, as well as detecting and responding to cluster event.(this is the brain of kubernetes cluster)
 
 # kube-api-server
@@ -51,7 +52,7 @@ there are many types of controllers. some example like
 > job controller:  watches for job object that represent one-off tasks, then creates pod to run those task to completion.
 > serviceAccount controller: create default serviceAccount for new namespace.
 
-# Node component
+# 2 Node component
 Node component runs on every node, maintaining running pods and providing the kubernetes runtime env.
 
 # Kubelet

@@ -1,0 +1,9 @@
+apiVersion: storage.k8sio/v1
+kind: StorageClass
+metadata: 
+  name: ebs-storage
+provisioner: ebs.csi.aws.com             # with theprovisioner ebs volume will create and communicate
+volumebindingMode: WaitforFirstConsumer  # immediate # consumer means deployment and statefull set yaml files
+reclaimPolicy: Delete                    #retain means go and delete manualy
+parameters: 
+  type: gp2
