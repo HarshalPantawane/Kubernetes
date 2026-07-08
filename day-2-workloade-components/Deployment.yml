@@ -84,7 +84,7 @@ kind: Deployment
 metadata:
   name: myapp3
   namespace: default
-  Labels:
+  labels:
     app: myapp3
 spec:
   replicas: 5
@@ -93,7 +93,7 @@ spec:
       app: myapp3
   template:
     metadata:
-      Labels:
+      labels:
         app: myapp3
     spec:
       containers:

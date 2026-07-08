@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: busybox-deployment
+  namespace: default
+  labels:
+    app: myapp
+spec:
+  replicas: 5
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels: 
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:      
+      containers:
+      - name: busybox-deployment
+        image: busybox
+        ports:
+        - containerPort: 80
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  namespace: default 
+  labels: 
+    app: nginx-deployment
+spec:
+  replicas: 5
+  strategy: Recreate   
+  selector:
+    matchLabels:
+      app: nginx-deployment
+  template:
+    metadata:
+      labels:
+        app: nginx-deployment
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80                   
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: http-deployment
+  namespace: default
+  labels: 
+    app: http-deployment
+spec:
+  replicas: 5
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: http-deployment
+  template:
+    metadata:
+      labels: 
+        app: http-deployment
+    spec:
+      containers:
+      - name: http
+        image: httpd 
+        ports: 
+        - containerPort: 80                     
+
+# kubectl get deployment       / 
+# kubectl get deploy           /
+# kubectl get deploy -A        /
+# kubectl get deploument --all-namespaces        
