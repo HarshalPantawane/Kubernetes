@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: nginx-deployment
+  namespace: default
+  labels:
+    app: myapp
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels: 
+        app: myapp
+    spec: 
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80            
+        resources:
+            requests: 
+              cpu: "100m"           # "m" for millicpu (one thousandth of a cpu core)  1000 = 1 CPU core
+              memory: "128Mi"       # "Mi" for Mebibyte (binary unit used in k8s). 1 Mi = 1024 × 1024 bytes = 1,048,576 bytes, 1024 Mi = 1 Gi
+            limits:                 # this limit used while creating new pods when node has free CPU
+              cpu: "500m"            # each pods can used 500m cpu
+              memory: "512Mi"  
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  namespace: default
+  labels:
+    app: myapp
+spec: 
+  replicas: 2
+  selector: 
+    matchLabels: 
+      app: myapp
+  template:
+    metadata: 
+      labels:
+        app: myapp
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containnerPort: 80
+        resources:
+          requests: 
+            cpu: "100m"
+            memory: "125Mi"    
+          limits:
+            cpu: "500m"
+            memory: "512Mi"                        

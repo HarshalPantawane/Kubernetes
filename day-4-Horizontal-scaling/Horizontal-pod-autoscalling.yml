@@ -1,0 +1,95 @@
+# the horizontal pod autoscaler automatically adjusts the number of pods based on metrics like:
+# cpu
+# memory utilization
+# custom metrics
+# external metrics
+
+
+# using CPU Resource
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: nginx-hpa
+spec:
+  scaleTargetRef:                 # this autoscalling will communicate via deployment metadata
+    apiVersion: apps/v1           #
+    kind: Deployment              #
+    name: nginx-deployment        #
+  minReplicas: 1
+  maxReplicas: 10
+  metrics: 
+  - type: Resource
+    resource:
+      name: cpu
+      target: 
+        type: Utilization 
+        averageUtilization: 1      # this is in Persent  from 1 to 100
+
+---
+# using CPU resource
+apiVersion: autoscaling/v2 
+kind: HorizontalPodAutoscaler
+metadata: 
+  name: nginx-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: nginx-deployment
+  minReplicas: 1
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+       type: Utilization
+       averageUtilization: 70 
+
+---
+# using Memory Resource
+apiVersion: autoscaling/v2         # autoscaling/v2 used because it supports multiple metrics and advanced scaling features.
+kind: HorizontalPodAutoscaler
+metadata: 
+  name: nginx-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: nginx-deployment
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 70
+          
+---
+# using both cpu and memory
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: nginx-hpa
+spec: 
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: nginx-deployment
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target: 
+        type: Utilization
+        averageUtilization: 80

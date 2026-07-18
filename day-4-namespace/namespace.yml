@@ -1,0 +1,27 @@
+# A Namespace is a logical way to divide a Kubernetes cluster into separate virtual environments
+# It helps organize resources, isolate applications, prevent naming conflicts, and enables resource quotas and access control.
+
+apiVersion: v1 
+kind: Namespace
+metadata:
+  name: dev           # name of namespace
+
+
+---
+apiVerion: v1 
+kind: Namespace
+metadata: 
+  name: test
+
+---
+apiVersion: v1  
+kind: Namespace
+metadata: 
+  name: production
+
+---
+apiVersion: v1 
+kind: Namespace
+metadata:
+  name: harshal
+        
