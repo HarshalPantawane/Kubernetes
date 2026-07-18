@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: nodeselector-deployment
+  namespace: dafault
+  labels:
+    app: myapp
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+      nodeSelector:                 # Nodeselector, using this line and labeling node we can use this
+        desktype: ssd              
+
+# steps-by-steps
+
+# Labels node 
+# kubectl labels node worker-node1 disktype=ssd
+# kubectl get nodes --show-labels
+
+# kubectl apply -f deployment.yml
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: nginx
+  namespace: default
+  labels: 
+    app: myapp
+spec: 
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata: 
+      labels:
+        app: myapp
+    spec: 
+      containers:
+      - name: nginx
+        image: nginx:latest            
+        ports:
+        - containerPort: 80
+      nodeSelector:
+        color: blue  
+
+---
+# service file
+apiVersion: v1 
+kind: Service
+metadata:
+  name: nginx
+  namespace: default
+spec:
+  selector:
+    app: myapp
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: ClusterIP     
+
+# kubectl labels node node-name color=blue
+# kubectl get nodes --show-labels
+# kubectl apply -f node-selector.yml
