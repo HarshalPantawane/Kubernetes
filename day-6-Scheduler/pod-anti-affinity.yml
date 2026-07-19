@@ -1,0 +1,75 @@
+# Do not schedule this Pod on a node where a Pod with the specified label is already running.
+
+apiversion: apps/v1 
+kind: Deployment
+metadata:
+  name: anti-affinity
+  namespace: default
+  labels:
+    app: frontend
+spec: 
+  replicas: 3
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app:  frontend
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In 
+                values: 
+                - backend
+            topologyKey: kubernetes.io/hostname
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80            
+---
+apiVersion: v1 
+kind: Service
+metadata:
+  name: frontend-svc
+spec:
+  selector:
+    app: frontend
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: nodePort
+
+---
+spec:
+  affinity:  
+    podAntiAffinity: 
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+          - key: app
+            operator: In 
+            values:
+            - backend
+        topologyKey: kubernetes.io/hostname
+
+---
+# rpeferred anti- affinity
+affinity:
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+    - weight: 100
+      podAffinityTerm:
+        labelSelector:
+          matchExpressions:
+          - key: app
+            operator: In
+            values:
+            - frontend
+        topologyKey: kubernetes.io/hostname              

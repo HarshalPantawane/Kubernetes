@@ -83,4 +83,34 @@ spec:
             - backend 
             - frontend
 
-# if there are 2 values and both pods are running, i that case pod can schedule on any node if they are on different node
+# if there are 2 values and both pods are running, i that case pod can schedule on any node if they are on different nod
+---
+spec:
+      affinity:
+        podAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - frontend
+              topologyKey: kubernetes.io/hostname
+---
+apiVersion: v1 
+kind: service
+metadata:
+  name: affinity-service
+  namespace: default
+  labels:
+    app: frontend
+spec:
+  selector:
+    app: frontend
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: nodePort
