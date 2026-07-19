@@ -17,12 +17,12 @@ spec:
     spec: 
       affinity:                                            # This is the parent section where you define affinity and anti-affinity rules.
         nodeAffinity:                                      # This specifies that the rules apply to node labels.
-          requiredDuringSchedulingIgnoreDuringExecution:   # The Pod must be scheduled on a matching node, but if the node's labels change after scheduling, the running Pod is not evicted.
+          requiredDuringSchedulingIgnoredDuringExecution:   # The Pod must be scheduled on a matching node, but if the node's labels change after scheduling, the running Pod is not evicted.
             nodeSelectorTerms:                             # entry contains one or more conditions that can match a node.
             - matchExpressions:                            # This is where you define one or more matching rules.( one and more can define)
               - key: color
                 operator: In                               # The In operator means: The node's label value must be one of the values listed below.
-                values:
+                values:           # in node affinity i can pass multiple values for single key.
                 - blue
       containers:
       - name: nginx
@@ -33,3 +33,71 @@ spec:
 # kubectl labels node worker-node color=blue
 
 # kubectl apply -f required-affinity.yml
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: affinity
+  namespace: deafault
+  labels:
+    app: myapp
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSlectorTerms:
+            - matchExpressions:
+              - key: disk
+                operator: In 
+                value: 
+                - ssd
+      containers:
+      - name: nginx
+        image: nginx:1.0
+        ports:
+        - containerPort: 80
+
+# kubct label node workernode-1 disk=ssd
+# kubctl apply -f affinity.yml
+# kubectl gate deployment  or deploy 
+
+---
+apiVersion: v1 
+kind: Service
+metadata: 
+  name: affinity-service
+  namespace: default
+spec:
+  selector:
+    app: myapp
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: ClusterIP    
+
+
+---
+spec: 
+  affinity: 
+    nodeAffinity:  
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: name
+            operator: In          
+            values:                    # in affinity, any one value should match with one node label for schedule
+            - harsh                    # multiple values for multiple node
+            - sriya
+            - hatshal
+            

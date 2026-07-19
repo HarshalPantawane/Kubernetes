@@ -55,8 +55,8 @@ spec:
         ports:
         - containerPort: 80
       nodeSelector:
-        color: blue  
-
+        color: blue               # if i used multiple key=value pairs in file , and labels node only one, it will remain pending because others labels are missing
+        disk: ssd
 ---
 # service file
 apiVersion: v1 

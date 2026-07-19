@@ -1,0 +1,86 @@
+# pod affinity for pod deploy on same node with specific labels.
+# like for frintend and backend, only one will used affinity on file.
+# if any pod running first and other pods want to run next to the first pod, next pod will use affinity
+# no need to label node
+
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: frontend-deployment
+  namespace: default
+  labels:
+    app: frontend 
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: frontend 
+  template:
+    metadata: 
+      labels:
+        app: frontend
+    spec:
+      affinity: 
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In 
+                values:
+                - backend
+            topologyKey: kubernetes.io/hostname    
+      containers: 
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  namespace: default
+  labels: 
+    app: backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata: 
+      labels: 
+        app: backend
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80           
+
+# backend should start first
+# kubectl apply -f backend.yml
+# kubectl get po --show-labels         
+# kubectl get po -A --show-labels              # All namespace
+# kubectl get pod <pod-name> -o yaml           # Get labels in YAML
+# kubectl apply -f frontend.yml
+# kubectl get pods -l app=frontend             # Show only frontend Pods:
+# kubectl get pods -l app=backend              # Show only backend Pods:
+
+
+---
+spec:
+  affinity: 
+    podAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+          - key: app
+            operator: In 
+            values: 
+            - backend 
+            - frontend
+
+# if there are 2 values and both pods are running, i that case pod can schedule on any node if they are on different node

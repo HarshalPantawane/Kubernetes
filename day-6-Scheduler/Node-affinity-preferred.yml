@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: preferred-deploy
+  namespace: default
+  labels:
+    app: myapp
+spec:
+  replicas: 3
+  selector: 
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            preference: 
+              matchExpressions:
+              - key: color
+                operator: In
+                values:
+                - red 
+      containers:
+      - name: nginx
+        image: nginx:1.0
+        ports:
+        - containerPort: 80
+
+# kubectl label node node-name color=red
+# kubectl apply -f preferred-affinity.yml
+# kubectl get deploy -A
+# kubectl get svc
+# kubectl get po
+# kubectl get node
+# kubectl get nodes --show-labels
+
+---
+apiVersion: v1 
+kind: Service
+metadata:
+  name: preferred-service
+  namespace: default
+  labels:
+    app: myapp
+spec: 
+  selector:
+    app: myapp
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: ClusterIP        
+
+---
+spec:
+  affinity: 
+    nodeAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        preference:
+          matchExpressions:
+          - key: disk
+            operator: In 
+            values: 
+            - ssd  
